@@ -19,7 +19,8 @@ clients can perform only two operations: (1) list products
 for sale and (2) calculate shipping costs.
 
 <p align="center">
-    <img width="70%" src="https://user-images.githubusercontent.com/7620947/108773349-f68f3500-753c-11eb-8c4f-434ca9a9deec.png" />
+    <img width="70%"  alt="image" src="https://github.com/user-attachments/assets/a1c2b6fb-836b-4440-a5e4-24362f7cc8ac" />
+
 </p>
 
 In the rest of this document we will:
