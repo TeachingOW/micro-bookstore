@@ -2,8 +2,8 @@
 
 This repository contains a simple example of a virtual bookstore
 implemented using a **microservices architecture**. The example was
-designed for use in a hands-on class about microservices, which can,
-for example, take place after covering
+designed for use in a hands-on class about microservices, which,
+for example, can take place after covering
 [Chapter 7](https://softengbook.org/chapter7) of the book
 [Software Engineering: A Modern Approach](https://softengbook.org).
 
@@ -52,7 +52,7 @@ However, you will be able to complete the proposed tasks even if you
 have never programmed in JavaScript, because our guide
 includes the code snippets you need to copy into the system.
 
-To simplify execution and understanding, no databases or external
+To simplify execution and understanding, neither databases nor external
 services are used.
 
 
@@ -104,7 +104,7 @@ service ShippingService {
 }
 
 message ShippingPayload {
-    string cep = 1;
+    string zip = 1;
 }
 
 message ShippingResponse {
