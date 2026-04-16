@@ -13,6 +13,8 @@ const shippingProto = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 // ShippingService methods
+const port = process.env.PORT || 3001;
+
 server.addService(shippingProto.ShippingService.service, {
     GetShippingRate: (_, callback) => {
         const shippingValue = Math.random() * 100 + 1; // Random value from 1 to 100
@@ -23,7 +25,7 @@ server.addService(shippingProto.ShippingService.service, {
     },
 });
 
-server.bindAsync('0.0.0.0:3001', grpc.ServerCredentials.createInsecure(), () => {
-    console.log('Shipping Service running at http://127.0.0.1:3001');
+server.bindAsync(`0.0.0.0:${port}`, grpc.ServerCredentials.createInsecure(), () => {
+    console.log(`Shipping Service running at http://127.0.0.1:${port}`);
     server.start();
 });

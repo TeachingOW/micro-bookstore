@@ -35,8 +35,10 @@ function newBook(book) {
     return div;
 }
 
+const apiOrigin = `${window.location.protocol}//${window.location.hostname}:3000`;
+
 function calculateShipping(id, zipcode) {
-    fetch('http://localhost:3000/shipping/' + zipcode)
+    fetch(`${apiOrigin}/shipping/${zipcode}`)
         .then((data) => {
             if (data.ok) {
                 return data.json();
@@ -55,7 +57,7 @@ function calculateShipping(id, zipcode) {
 document.addEventListener('DOMContentLoaded', function () {
     const books = document.querySelector('.books');
 
-    fetch('http://localhost:3000/products')
+    fetch(`${apiOrigin}/products`)
         .then((data) => {
             if (data.ok) {
                 return data.json();

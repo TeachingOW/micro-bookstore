@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application code
+COPY services/controller ./services/controller
+COPY proto ./proto
+
+# Expose REST API port
+EXPOSE 3000
+
+# Run the controller service
+CMD ["node", "services/controller/index.js"]

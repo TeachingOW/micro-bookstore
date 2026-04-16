@@ -1,0 +1,19 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application code
+COPY services/shipping ./services/shipping
+COPY proto ./proto
+
+# Expose gRPC port for shipping service
+EXPOSE 3001
+
+# Run the shipping service
+CMD ["node", "services/shipping/index.js"]

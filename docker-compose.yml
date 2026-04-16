@@ -1,0 +1,79 @@
+services:
+  inventory:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.inventory
+    container_name: micro-bookstore-inventory
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+    volumes:
+      - ./services/inventory:/app/services/inventory
+      - ./proto:/app/proto
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    networks:
+      - bookstore-network
+
+  shipping:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.shipping
+    container_name: micro-bookstore-shipping
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    volumes:
+      - ./services/shipping:/app/services/shipping
+      - ./proto:/app/proto
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    networks:
+      - bookstore-network
+
+  controller:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.controller
+    container_name: micro-bookstore-controller
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - INVENTORY_HOST=inventory
+      - INVENTORY_PORT=3002
+      - SHIPPING_HOST=shipping
+      - SHIPPING_PORT=3001
+    depends_on:
+      - inventory
+      - shipping
+    volumes:
+      - ./services/controller:/app/services/controller
+      - ./proto:/app/proto
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    networks:
+      - bookstore-network
+
+  frontend:
+    image: node:18-alpine
+    container_name: micro-bookstore-frontend
+    working_dir: /app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./services/frontend:/app/services/frontend
+      - ./package.json:/app/package.json
+      - ./package-lock.json:/app/package-lock.json
+    depends_on:
+      - controller
+    command: >
+      sh -c "npm install && npx serve -p 5000 services/frontend"
+    networks:
+      - bookstore-network
+
+networks:
+  bookstore-network:
+    driver: bridge

@@ -10,11 +10,13 @@ app.use(cors());
  * Return the store's product list via InventoryService
  */
 app.get('/products', (req, res, next) => {
+    console.log('Received request for /products');
     inventory.SearchAllProducts(null, (err, data) => {
         if (err) {
-            console.error(err);
+            console.error('Error calling inventory:', err);
             res.status(500).send({ error: 'something failed :(' });
         } else {
+            console.log('Inventory returned:', data);
             res.json(data.products);
         }
     });
@@ -45,6 +47,6 @@ app.get('/shipping/:zipcode', (req, res, next) => {
 /**
  * Start the router
  */
-app.listen(3000, () => {
-    console.log('Controller Service running on http://127.0.0.1:3000');
+app.listen(3000, '0.0.0.0', () => {
+    console.log('Controller Service running on http://0.0.0.0:3000');
 });

@@ -9,6 +9,8 @@ const packageDefinition = protoLoader.loadSync('proto/shipping.proto', {
 });
 
 const ShippingService = grpc.loadPackageDefinition(packageDefinition).ShippingService;
-const client = new ShippingService('127.0.0.1:3001', grpc.credentials.createInsecure());
+const shippingHost = process.env.SHIPPING_HOST || 'shipping';
+const shippingPort = process.env.SHIPPING_PORT || 3001;
+const client = new ShippingService(`${shippingHost}:${shippingPort}`, grpc.credentials.createInsecure());
 
 module.exports = client;
