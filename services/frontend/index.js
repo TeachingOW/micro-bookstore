@@ -35,9 +35,19 @@ function newBook(book) {
     return div;
 }
 
+const isLocalhost =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const apiOrigin = `${window.location.protocol}//${window.location.hostname}:3000`;
 
 function calculateShipping(id, zipcode) {
+    if (!isLocalhost) {
+        swal(
+            'info',
+            'Shipping calculation requires a local installation. See the README for setup instructions.',
+            'info'
+        );
+        return;
+    }
     fetch(`${apiOrigin}/shipping/${zipcode}`)
         .then((data) => {
             if (data.ok) {
@@ -57,7 +67,11 @@ function calculateShipping(id, zipcode) {
 document.addEventListener('DOMContentLoaded', function () {
     const books = document.querySelector('.books');
 
-    fetch(`${apiOrigin}/products`)
+    const productsRequest = isLocalhost
+        ? fetch(`${apiOrigin}/products`)
+        : fetch('./products.json');
+
+    productsRequest
         .then((data) => {
             if (data.ok) {
                 return data.json();
