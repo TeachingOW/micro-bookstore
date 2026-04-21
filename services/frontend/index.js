@@ -40,15 +40,16 @@ const isLocalhost =
 const apiOrigin = `${window.location.protocol}//${window.location.hostname}:3000`;
 
 function calculateShipping(id, zipcode) {
-    if (!isLocalhost) {
+    /*if (!isLocalhost) {
         swal(
             'info',
             'Shipping calculation requires a local installation. See the README for setup instructions.',
             'info'
         );
         return;
-    }
-    fetch(`${apiOrigin}/shipping/${zipcode}`)
+    }*/
+   //console.log(${apiOrigin});
+    fetch(`http://127.0.0.1:3000/shipping/${zipcode}`)
         .then((data) => {
             if (data.ok) {
                 return data.json();
